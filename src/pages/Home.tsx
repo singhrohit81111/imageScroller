@@ -4,9 +4,7 @@ import { imageData } from '../dataTypes/interfaces';
 import '../styles/style.scss';
 import LazyImageList from '../components/LazyImageList';
 
-interface imageURL {
-  image: string;
-}
+
 export default function Home() {
   const [images, setImages] = useState<string[]>([]);
   useEffect(() => {
@@ -19,7 +17,6 @@ export default function Home() {
 
 
   }, [])
-  console.log(images);
   return (
     <LazyImageList images={images} batchSize={20} />
   )

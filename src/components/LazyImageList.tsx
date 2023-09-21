@@ -16,15 +16,13 @@ const LazyImageList: React.FC<LazyImageListProps> = ({ images, batchSize }) => {
 
         setVisibleImages((prevImages) => [...prevImages, ...nextImages]);
       };
-      console.log(visibleImages);
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
               loadNextBatch();
-            }, 6000)
-            console.log(entry);
+            }, 5000)
           }
         });
       });
