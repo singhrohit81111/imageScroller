@@ -23,6 +23,7 @@ export default function ImagesList() {
                 })
                 if (nextImages.length === 0) {
                     setIsLoading(false);
+                    observer.disconnect();
                     return;
                 }
                 console.log(nextImages);
@@ -55,10 +56,7 @@ export default function ImagesList() {
 
             })}
             <div ref={imageRef} />
-            
-            <div>
-               <BlankImages isLoading={isLoading}/>
-            </div>
+            {isLoading && <BlankImages />}
         </div>
     )
 }
