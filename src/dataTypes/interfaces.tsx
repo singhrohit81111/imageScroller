@@ -4,14 +4,8 @@ export interface imageData{
     
 }
 
-export interface LazyImageListProps {
-    images: string[]; 
-    batchSize: number; 
-  }
-  
 
-  export interface LazyImageProps {
+  export interface VisibleImageProps {
     src: string; 
     alt: string; 
-    className?: string; 
   }
