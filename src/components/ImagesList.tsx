@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import '../styles/style.scss';
 import VisibleImage from './VisibleImage';
-import loader from '../assets/loader.gif';
 import BlankImages from './BlankImages';
 
 export default function ImagesList() {
@@ -10,25 +9,31 @@ export default function ImagesList() {
     const [visibleImages, setVisibleImages] = useState<string[]>([]);
     const imageRef = useRef<HTMLDivElement | null>(null);
     const [initalCount, setInitialCount] = useState<number>(0);
+    const [error,setError]=useState<boolean>(false);
 
     console.log(imageRef);
 
     // laodMore();
     useEffect(() => {
+        
         const laodMore = () => {
+            
             axios.get(`https://api.slingacademy.com/v1/sample-data/photos?offset=${initalCount}&limit=20`).then(res => {
-                const nextImages = res.data.photos.map((photo: any) => {
-                    return photo.url;
+                console.log(res.status);
+                console.log(window.navigator.onLine);
+                    const nextImages = res.data.photos.map((photo: any) => {
+                        return photo.url;
 
-                })
-                if (nextImages.length === 0) {
-                    setIsLoading(false);
-                    observer.disconnect();
-                    return;
-                }
-                console.log(nextImages);
-                setVisibleImages(prevImages => { return [...prevImages, ...nextImages] });
-                setInitialCount(initalCount + 20);
+                    })
+                    if (nextImages.length === 0) {
+                        setIsLoading(false);
+                        observer.disconnect();
+                        return;
+                    }
+                    console.log(nextImages);
+                    setVisibleImages(prevImages => { return [...prevImages, ...nextImages] });
+                    setInitialCount(initalCount + 20);
+                
             })
         }
 
@@ -36,7 +41,18 @@ export default function ImagesList() {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     console.log(entry);
-                    laodMore()
+                    if(navigator.onLine){
+                        laodMore();
+                        console.log(window.navigator.onLine);
+                        
+                    }
+                    else if(!navigator.onLine){
+                        console.log("hfghjfhhtftyg",navigator.onLine);
+                        window.alert("ERROR");
+                        
+                        
+                    }
+                   
                 }
             });
         }, { threshold: 0.25 });
@@ -48,7 +64,7 @@ export default function ImagesList() {
         return () => {
             observer.disconnect();
         };
-    }, [initalCount])
+    }, [initalCount,navigator.onLine])
     return (
         <div className='images'>
             {visibleImages.map(visibleImage => {
