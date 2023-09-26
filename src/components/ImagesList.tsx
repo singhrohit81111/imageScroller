@@ -24,9 +24,7 @@ export default function ImagesList() {
     }
     const laodMore = async () => {
         try {
-            console.log(window.navigator.onLine, 'isonlineisonlineisonlineisonlineisonlineisonline')
             const res = await axios.get(`https://api.slingacademy.com/v1/sample-data/photos?offset=${initalCount}&limit=20`);
-            console.log(res);
 
             if (res.status === 200) {
                 const nextImages = res.data.photos.map((photo: any) => {
@@ -39,37 +37,27 @@ export default function ImagesList() {
                     observerRef.current!.disconnect();
                     return;
                 }
-                console.log(nextImages);
                 setVisibleImages(prevImages => { return [...prevImages, ...nextImages] });
                 setInitialCount(initalCount + 20);
             }
         } catch (err: unknown) {
-            console.log(err);
-            //console.log(await apiCheck());
             const interval = setInterval(() => {
                 apiCheck().then(bool =>{
-                     console.log(bool);
-            
                      bool && clearInterval(interval);
                      if(bool)laodMore();
                 } );
-            }, 5000)
+            }, 3000)
 
             alert("No more data to show")
         }
-    }
-    console.log(error);
-    
+    }    
 
     useEffect(() => {
 
         observerRef.current = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    console.log(entry);
                     laodMore();
-                    console.log(navigator.onLine);
-
                 }
             });
         }, { threshold: 0.25 });
