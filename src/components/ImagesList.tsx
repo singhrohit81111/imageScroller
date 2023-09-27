@@ -9,7 +9,6 @@ export default function ImagesList() {
     const [visibleImages, setVisibleImages] = useState<string[]>([]);
     const imageRef = useRef<HTMLDivElement | null>(null);
     const [initalCount, setInitialCount] = useState<number>(0);
-    const [error, setError] = useState<boolean>(false);
     const observerRef = useRef<IntersectionObserver | null>(null);
 
     const apiCheck = async () => {
